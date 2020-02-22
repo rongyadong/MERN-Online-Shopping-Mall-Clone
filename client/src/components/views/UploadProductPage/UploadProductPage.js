@@ -44,7 +44,6 @@ const UploadProductPage = props => {
     // get the child image state and update the parent one
     const updateImages = newImages => {
         setImages(newImages);
-        console.table(newImages);
     };
 
     const onSubmit = e => {

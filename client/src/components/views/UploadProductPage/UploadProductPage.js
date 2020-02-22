@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Typography, Button, Form, message, Input, Icon } from 'antd';
 import FileUpload from "../../helpers/FileUpload";
+import Axios from "axios";
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -15,7 +16,7 @@ const Continents = [
     {key: 7, value: 'Antarctica'},
 ];
 
-const UploadProductPage = () => {
+const UploadProductPage = props => {
 
     const [titleValue, setTitleValue] = useState('');
     const [descriptionValue, setDescriptionValue] = useState('');
@@ -48,6 +49,34 @@ const UploadProductPage = () => {
 
     const onSubmit = e => {
         e.preventDefault();
+
+        // basic form check validation
+        if(!titleValue || !descriptionValue || !priceValue || !continentValue || !images){
+            alert('Please fill all fields first');
+        }
+
+        // the HTTP request payload data based on the Product model in the Node server
+        const Data = {
+            writer: props.user.userData._id,
+            title: titleValue,
+            description: descriptionValue,
+            price: priceValue,
+            images: images,
+            continents: continentValue
+        };
+
+        // send HTTP request to backend
+        // this API should be in the Product controller - routes in the Node server
+        Axios.post('/api/product/uploadProduct', Data)
+            .then(res => {
+                if (res.data.success) {
+                    alert('Product Successfully uploaded');
+                    props.history.push('/');
+
+                } else {
+                    alert('Failed to upload Product');
+                }
+            });
     };
 
     return (

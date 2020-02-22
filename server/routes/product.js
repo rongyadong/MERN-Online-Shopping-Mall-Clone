@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { Product } = require('../models/Product');
+const {Product} = require('../models/Product');
 const multer = require('multer');
 
-const { auth } = require("../middleware/auth");
+const {auth} = require("../middleware/auth");
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -48,6 +48,17 @@ router.post("/uploadProduct", auth, (req, res) => {
         }
         return res.status(200).json({success: true});
     });
+});
+
+router.post("/getProducts", auth, (req, res) => {
+    // get all products
+    Product.find()
+        .exec((err, products) => {
+            if (err) {
+                return res.status(400).json({success: false, err});
+            }
+            return res.status(200).json({success: true, products});
+        });
 });
 
 module.exports = router;

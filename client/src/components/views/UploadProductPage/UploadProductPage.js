@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { Typography, Button, Form, message, Input, Icon } from 'antd';
+import FileUpload from "../../helpers/FileUpload";
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -21,6 +22,8 @@ const UploadProductPage = () => {
     const [priceValue, setPriceValue] = useState(0);
     const [continentValue, setContinentValue] = useState(1);
 
+    const [images, setImages] = useState([]);
+
     const onTitleValueChange = e => {
         setTitleValue(e.currentTarget.value);
     };
@@ -37,6 +40,12 @@ const UploadProductPage = () => {
         setContinentValue(e.currentTarget.value);
     };
 
+    // get the child image state and update the parent one
+    const updateImages = newImages => {
+        setImages(newImages);
+        console.table(newImages);
+    };
+
     const onSubmit = e => {
         e.preventDefault();
     };
@@ -48,6 +57,12 @@ const UploadProductPage = () => {
             </div>
 
             <Form onSubmit={onSubmit}>
+
+                {/* DropZone */}
+                <FileUpload
+                    refreshFunction={updateImages}
+                />
+
                 <br/>
                 <br/>
                 <label>Title</label>

@@ -53,13 +53,24 @@ router.post("/uploadProduct", auth, (req, res) => {
 router.post("/getProducts", (req, res) => {
     // get all products
     // and add new conditions to get products
-    let {order, sortBy, limit, skip} = req.body;
+    let {order, sortBy, limit, skip, filterConditions} = req.body;
     order = order ? order : 'desc';
     sortBy = sortBy ? sortBy : '-1';
     limit = limit ? parseInt(limit) : 100;
     skip = parseInt(skip);
 
-    Product.find()
+    let findArgs = {};
+
+    // check keys in the filterConditions and use it to filter DB result
+    for (let key in filterConditions) {
+        if (Object.keys(filterConditions).length > 0) {
+            if (key === 'continents') {
+                findArgs[key] = filterConditions[key];
+            }
+        }
+    }
+
+    Product.find(findArgs)
         .populate('writer')
         .sort([[order, sortBy]])
         .limit(limit)

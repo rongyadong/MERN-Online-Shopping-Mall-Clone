@@ -8,17 +8,43 @@ const { Meta } = Card;
 function LandingPage() {
 
     const [products, setProducts] = useState([]);
+    const [skip, setSkip] = useState(0);
+    const [limit, setLimit] = useState(8);
+    const [postSize, setPostSize] = useState(0);
 
     useEffect(() => {
-        Axios.post('/api/product/getProducts')
+        // use the default value as the first time fetching data
+        const config = {
+            skip, // 0 - start index 0 to fetch data
+            limit // 8 - each time plus 8 more
+        };
+
+        getProducts(config);
+    }, []);
+
+    const getProducts = (config) => {
+        Axios.post('/api/product/getProducts', config)
             .then(res => {
                 if (res.data.success) {
-                    setProducts(res.data.products);
+                    setProducts([...products, ...res.data.products]);
+                    setPostSize(res.data.postSize);
                 } else {
                     alert('Failed to fetch the product data');
                 }
             });
-    }, []);
+    };
+
+    const onLoadMore = () => {
+        let nextLoad = skip + limit;
+
+        const config = {
+            skip: nextLoad,
+            limit
+        };
+
+        getProducts(config);
+        setSkip(nextLoad);
+    };
 
     const renderCards = products.map((item, index) => {
         return (
@@ -59,9 +85,11 @@ function LandingPage() {
 
             <br/>
             <br/>
-            <div style={{display: 'flex', justifyContent: 'center'}}>
-                <Button>Load more</Button>
-            </div>
+            {postSize >= limit && (
+                <div style={{display: 'flex', justifyContent: 'center'}}>
+                    <Button onClick={onLoadMore}>Load more</Button>
+                </div>
+            )}
         </div>
     );
 }

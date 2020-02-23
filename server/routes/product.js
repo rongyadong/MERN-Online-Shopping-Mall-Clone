@@ -52,12 +52,23 @@ router.post("/uploadProduct", auth, (req, res) => {
 
 router.post("/getProducts", auth, (req, res) => {
     // get all products
+    // and add new conditions to get products
+    let {order, sortBy, limit, skip} = req.body;
+    order = order ? order : 'desc';
+    sortBy = sortBy ? sortBy : '-1';
+    limit = limit ? parseInt(limit) : 100;
+    skip = parseInt(skip);
+
     Product.find()
+        .populate('writer')
+        .sort([[order, sortBy]])
+        .limit(limit)
+        .skip(skip)
         .exec((err, products) => {
             if (err) {
                 return res.status(400).json({success: false, err});
             }
-            return res.status(200).json({success: true, products});
+            return res.status(200).json({success: true, postSize: products.length, products});
         });
 });
 

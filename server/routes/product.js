@@ -50,7 +50,7 @@ router.post("/uploadProduct", auth, (req, res) => {
     });
 });
 
-router.post("/getProducts", auth, (req, res) => {
+router.post("/getProducts", (req, res) => {
     // get all products
     // and add new conditions to get products
     let {order, sortBy, limit, skip} = req.body;

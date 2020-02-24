@@ -74,15 +74,15 @@ const LandingPage = () => {
         return arr;
     };
 
-    const handleFilters = (filtersValue, catagory) => {
+    const handleFilters = (filtersValue, category) => {
         let newFilters = {...filters};
-        newFilters[catagory] = filtersValue;
+        newFilters[category] = filtersValue;
 
         setFilters(newFilters);
 
-        if(catagory='price'){
+        if(category==='price'){
             let priceValue = handlePriceFilter(filtersValue);
-            newFilters[catagory] = priceValue;
+            newFilters[category] = priceValue;
         }
 
         // use the new result to call the Axios.post function and get the new list in UI

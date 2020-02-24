@@ -22,10 +22,12 @@ const CheckBox = props => {
         <div>
             <Collapse defaultActiveKey={[0]}>
                 <Panel key='1' header='Continents'>
-                    {props.filterList.map((item,index)=>(
+                    {props.filterList && props.filterList.map((item, index) => (
                         <React.Fragment key={item._id}>
                             <Checkbox
-                                onClick={()=>{handleToggle(item._id)}}
+                                onClick={() => {
+                                    handleToggle(item._id);
+                                }}
                                 type='checkbox'
                                 checked={checked.indexOf(item._id) === -1 ? false : true}
                             />
@@ -35,7 +37,7 @@ const CheckBox = props => {
                 </Panel>
             </Collapse>
         </div>
-    )
+    );
 };
 
 export default CheckBox;

@@ -58,11 +58,29 @@ const LandingPage = () => {
         setSkip(nextLoad);
     };
 
+    const handlePriceFilter = (priceValue) => {
+        const data = price;
+        let arr = [];
+
+        for(let key in data){
+            // because the typeof priceValue from the RadioBox is string and should covert it to number
+            if(data[key]._id === parseInt(priceValue,10)){
+                arr = data[key].array
+            }
+        }
+        return arr;
+    };
+
     const handleFilters = (filtersValue, catagory) => {
         let newFilters = {...filters};
         newFilters[catagory] = filtersValue;
 
         setFilters(newFilters);
+
+        if(catagory='price'){
+            let priceValue = handlePriceFilter(filtersValue);
+            newFilters[catagory] = priceValue;
+        }
 
         // use the new result to call the Axios.post function and get the new list in UI
         showFilterResults(newFilters);

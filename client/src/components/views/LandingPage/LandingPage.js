@@ -4,6 +4,7 @@ import Axios from "axios";
 import ImageSlider from "../../helpers/ImageSlider";
 import CheckBox from "./Sections/CheckBox";
 import RadioBox from "./Sections/RadioBox";
+import SearchFeature from "./Sections/SearchFeature";
 import { continents , price } from './Sections/FilterData';
 
 const { Meta } = Card;
@@ -14,10 +15,12 @@ const LandingPage = () => {
     const [skip, setSkip] = useState(0);
     const [limit, setLimit] = useState(8);
     const [postSize, setPostSize] = useState(0);
+    const [searchTerms, setSearchTerms] = useState('');
     const [filters, setFilters] = useState({
         continents: [],
         price: []
     });
+
 
     useEffect(() => {
         // use the default value as the first time fetching data
@@ -98,6 +101,21 @@ const LandingPage = () => {
         setSkip(0);
     };
 
+    const updateSearchTerms = (newSearchTerm) => {
+        const config = {
+            skip: 0,
+            limit,
+            filters,
+            searchTerm: newSearchTerm
+        };
+
+        setSkip(0);
+        setSearchTerms(newSearchTerm);
+
+        // AJAX.post with this condition to fetch data from the server side
+        getProducts(config);
+    };
+
     const renderCards = products.map((item, index) => {
         return (
             <Col lg={6} md={8} xs={24} key={item._id}>
@@ -138,6 +156,13 @@ const LandingPage = () => {
             </Row>
 
             {/*Search*/}
+
+            <div style={{display: 'flex', justifyContent: 'flex-end', margin: '1rem auto'}}>
+                <SearchFeature
+                    refreshFunction={updateSearchTerms}
+                />
+            </div>
+
 
             {products.length === 0 ?
                 <div style={{display: 'flex', height: '300px', justifyContent: 'center', alignItems: 'center'}}>

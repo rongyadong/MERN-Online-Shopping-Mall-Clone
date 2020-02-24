@@ -3,6 +3,8 @@ import { Icon, Button, Row, Col, Card } from 'antd';
 import Axios from "axios";
 import ImageSlider from "../../helpers/ImageSlider";
 import CheckBox from "./Sections/CheckBox";
+import RadioBox from "./Sections/RadioBox";
+import { continents , price } from './Sections/FilterData';
 
 const { Meta } = Card;
 
@@ -101,9 +103,21 @@ const LandingPage = () => {
             </div>
 
             {/*Filter*/}
-            <CheckBox
-                handleFilters={filters=>handleFilters(filters,'continents')}
-            />
+
+            <Row gutter={[16, 16]}>
+                <Col lg={12} xs={24}>
+                    <CheckBox
+                        filterList={continents}
+                        handleFilters={filters => handleFilters(filters, 'continents')}
+                    />
+                </Col>
+                <Col lg={12} xs={24}>
+                    <RadioBox
+                        filterList={price}
+                        handleFilters={filters => handleFilters(filters, 'price')}
+                    />
+                </Col>
+            </Row>
 
             {/*Search*/}
 

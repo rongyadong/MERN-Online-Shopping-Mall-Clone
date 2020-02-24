@@ -6,7 +6,7 @@ import CheckBox from "./Sections/CheckBox";
 
 const { Meta } = Card;
 
-function LandingPage() {
+const LandingPage = () => {
 
     const [products, setProducts] = useState([]);
     const [skip, setSkip] = useState(0);
@@ -127,6 +127,6 @@ function LandingPage() {
             )}
         </div>
     );
-}
+};
 
 export default LandingPage;

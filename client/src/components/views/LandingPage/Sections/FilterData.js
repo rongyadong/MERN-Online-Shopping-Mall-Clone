@@ -33,7 +33,7 @@ const price = [
     {
         "_id": 0,
         "name": "Any",
-        "array": []
+        "array": [0, 1500000]
     },
     {
         "_id": 1,

@@ -41,10 +41,9 @@ const userSchema = mongoose.Schema({
 
 
 userSchema.pre('save', function (next) {
-    var user = this;
+    const user = this;
 
     if (user.isModified('password')) {
-        // console.log('password changed')
         bcrypt.genSalt(saltRounds, function (err, salt) {
             if (err) return next(err);
 
@@ -67,9 +66,9 @@ userSchema.methods.comparePassword = function (plainPassword, cb) {
 };
 
 userSchema.methods.generateToken = function (cb) {
-    var user = this;
-    var token = jwt.sign(user._id.toHexString(), 'secret');
-    var oneHour = moment().add(1, 'hour').valueOf();
+    const user = this;
+    const token = jwt.sign(user._id.toHexString(), 'secret');
+    const oneHour = moment().add(1, 'hour').valueOf();
 
     user.tokenExp = oneHour;
     user.token = token;
@@ -80,7 +79,7 @@ userSchema.methods.generateToken = function (cb) {
 };
 
 userSchema.statics.findByToken = function (token, cb) {
-    var user = this;
+    const user = this;
 
     jwt.verify(token, 'secret', function (err, decode) {
         user.findOne({"_id": decode, "token": token}, function (err, user) {

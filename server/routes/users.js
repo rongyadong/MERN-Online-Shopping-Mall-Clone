@@ -9,15 +9,20 @@ const { auth } = require("../middleware/auth");
 //=================================
 
 router.get("/auth", auth, (req, res) => {
+    // it will show the following details in redux store userData
+
+    const {_id, role, email, name, lastName, image, cart} = req.user;
+
     res.status(200).json({
-        _id: req.user._id,
-        isAdmin: req.user.role === 0 ? false : true,
+        _id,
+        email,
+        name,
+        lastName,
+        image,
+        cart,
+        role,
+        isAdmin: role === 0 ? false : true,
         isAuth: true,
-        email: req.user.email,
-        name: req.user.name,
-        lastName: req.user.lastName,
-        role: req.user.role,
-        image: req.user.image,
     });
 });
 

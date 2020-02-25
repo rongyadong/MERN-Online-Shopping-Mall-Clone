@@ -3,18 +3,18 @@ import { Descriptions, Button } from 'antd';
 
 const ProductDetails = props => {
 
-    const {details} = props;
+    const {details, addToCart} = props;
 
     const [product, setProduct] = useState({});
 
-    const {price, sold, views, description} = product;
+    const {price, sold, views, description, _id} = product;
 
     useEffect(() => {
         setProduct(details);
     }, [details]);
 
     const handleAddToCart = () => {
-
+        addToCart(_id);
     };
 
     return (

@@ -68,4 +68,59 @@ router.get("/logout", auth, (req, res) => {
     });
 });
 
+router.post('/addToCart', auth, (req, res) => {
+    // this .user in the req after pass the auth
+    const {_id} = req.user;
+    const {productId} = req.query;
+
+    User.findOne({_id}, (err, userInfo) => {
+
+        // whether this new coming product already in the cart or not
+        let duplicate = false;
+
+        userInfo.cart.forEach((cartInfo) => {
+            if (cartInfo.id === productId) {
+                // this product already exists in the cart
+                duplicate = true;
+            }
+        });
+
+        if (duplicate) {
+            // if this product in the cart already then update it (quantity + 1)
+            User.findOneAndUpdate(
+                {_id, 'cart.id': productId},
+                {$inc: {'cart.$.quantity': 1}},
+                {new: true},
+                () => {
+                    if (err) {
+                        return res.json({success: false, err});
+                    }
+                    return res.status(200).json(userInfo.cart);
+                }
+            );
+        } else {
+            // if this product is NOT in the cart now (quantity = 1)
+            User.findOneAndUpdate(
+                {_id},
+                {
+                    $push: {
+                        cart: {
+                            id: productId,
+                            quantity: 1,
+                            date: Date.now()
+                        }
+                    }
+                },
+                {new: true},
+                () => {
+                    if (err) {
+                        return res.json({success: false, err});
+                    }
+                    return res.status(200).json(userInfo.cart);
+                }
+            );
+        }
+    });
+});
+
 module.exports = router;

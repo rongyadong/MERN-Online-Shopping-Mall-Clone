@@ -102,19 +102,25 @@ router.post("/getProducts", (req, res) => {
     }
 });
 
-// id=${productId}&type=single
+// id=${productId}&type=single or type=array
 router.get('/products_by_id', (req, res) => {
     let {type, id: productId} = req.query;
 
+    if (type === 'array') {
+        let productIds = productId.split(',');
+        productId = [];
+        productId = [...productIds];
+    }
+
     // find single data record from DB by using this productId
-    Product.find({ '_id': { $in: productId } })
+    Product.find({'_id': {$in: productId}})
         .populate('writer')
-        .exec((err,product)=>{
-            if(err){
+        .exec((err, product) => {
+            if (err) {
                 return res.status(400).send(err);
             }
-            return res.status(200).send(product)
-        })
+            return res.status(200).send(product);
+        });
 });
 
 module.exports = router;

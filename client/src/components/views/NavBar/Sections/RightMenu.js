@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
-import { Menu } from 'antd';
-import axios from 'axios';
+import { Menu, Icon, Badge } from 'antd';
+import Axios from 'axios';
 import { USER_SERVER } from '../../../Config';
 import { Link, withRouter } from 'react-router-dom';
 import { useSelector } from "react-redux";
@@ -10,7 +10,7 @@ function RightMenu(props) {
   const user = useSelector(state => state.user)
 
   const logoutHandler = () => {
-    axios.get(`${USER_SERVER}/logout`).then(response => {
+    Axios.get(`${USER_SERVER}/logout`).then(response => {
       if (response.status === 200) {
         props.history.push("/login");
       } else {
@@ -35,6 +35,13 @@ function RightMenu(props) {
       <Menu mode={props.mode}>
           <Menu.Item key="upload">
               <Link to='/product/upload'>Upload</Link>
+          </Menu.Item>
+          <Menu.Item key="cart">
+              <Badge count={0}>
+                  <Link to='/user/cart' style={{marginRight: '-22px', color: '#667777'}}>
+                      <Icon type='shopping-cart' style={{fontSize: '30px', marginBottom: '4px'}}/>
+                  </Link>
+              </Badge>
           </Menu.Item>
         <Menu.Item key="logout">
           <a href="/login" onClick={logoutHandler}>Logout</a>

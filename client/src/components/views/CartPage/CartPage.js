@@ -75,7 +75,8 @@ const CartPage = props => {
                             width: '100%',
                             display: 'flex',
                             flexDirection: 'column',
-                            justifyContent: 'center'
+                            justifyContent: 'center',
+                            textAlign: 'center'
                         }}>
                             <br/>
                             <Empty description={false}/>

@@ -228,7 +228,7 @@ router.post('/successPay', auth, (req, res) => {
                 // update and clear the cartDetails
 
                 async.eachSeries(products, (item, callback) => {
-                    Product.update(
+                    Product.updateMany(
                         {_id: item.id},
                         {
                             $inc: {

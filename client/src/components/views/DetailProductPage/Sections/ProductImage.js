@@ -3,8 +3,8 @@ import ImageGallery from "react-image-gallery";
 
 const ProductImage = props => {
 
-    const {details} = props;
-    const {images} = props.details;
+    const {details, details: {images}} = props;
+
 
     const [items, setItems] = useState([]);
 

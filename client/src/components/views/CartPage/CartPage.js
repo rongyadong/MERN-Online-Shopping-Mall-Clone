@@ -7,8 +7,7 @@ import UserCartBlock from "./Sections/UserCartBlock";
 
 const CartPage = props => {
 
-    const {userData, cartDetails} = props.user;
-    const {cart} = userData;
+    const {cartDetails, userData, userData: {cart}} = props.user;
     const [total, setTotal] = useState(0);
     const [showTotal, setShowTotal] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);

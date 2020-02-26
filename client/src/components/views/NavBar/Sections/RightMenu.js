@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import { Menu, Icon, Badge } from 'antd';
 import Axios from 'axios';
@@ -34,11 +33,14 @@ function RightMenu(props) {
   } else {
     return (
       <Menu mode={props.mode}>
+          <Menu.Item key="history">
+              <Link to='/history'>History</Link>
+          </Menu.Item>
           <Menu.Item key="upload">
               <Link to='/product/upload'>Upload</Link>
           </Menu.Item>
           <Menu.Item key="cart">
-              <Badge count={userData&&userData.cart.length}>
+              <Badge count={userData && userData.cart.length}>
                   <Link to='/user/cart' style={{marginRight: '-22px', color: '#667777'}}>
                       <Icon type='shopping-cart' style={{fontSize: '30px', marginBottom: '4px'}}/>
                   </Link>

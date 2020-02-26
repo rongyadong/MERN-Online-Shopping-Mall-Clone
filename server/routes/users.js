@@ -253,4 +253,18 @@ router.post('/successPay', auth, (req, res) => {
     );
 });
 
+router.get('/history', auth, (req, res) => {
+
+    const {_id} = req.user;
+
+    User.findOne({_id}, (err, userInfo) => {
+        let {history} = userInfo;
+        if (err) {
+            return res.json({success: false, err});
+        }
+        return res.status(200).json({success: true, history});
+    });
+
+});
+
 module.exports = router;

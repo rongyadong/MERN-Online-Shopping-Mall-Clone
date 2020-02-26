@@ -5,6 +5,7 @@ import { Result, Empty } from "antd";
 import UserCartBlock from "./Sections/UserCartBlock";
 import Paypal from "../../helpers/Paypal";
 import Axios from "axios";
+import {USER_SERVER} from "../../Config";
 
 
 const CartPage = props => {
@@ -64,7 +65,7 @@ const CartPage = props => {
             paymentData: data
         };
 
-        Axios.post('/api/users/successPay', config)
+        Axios.post(`${USER_SERVER}/successPay`, config)
             .then(res => {
                 if (res.data.success) {
 

@@ -178,7 +178,7 @@ router.post('/successPay', auth, (req, res) => {
             name: item.title,
             price: item.price,
             quantity: item.quantity,
-            paymentId: paymentData.paymentId,
+            paymentId: paymentData.paymentID,
             dateOfPurchase: Date.now()
         }];
     });

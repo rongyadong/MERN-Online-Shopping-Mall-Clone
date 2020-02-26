@@ -1,8 +1,9 @@
 import React from "react";
+import { Button } from "antd";
 
 const UserCartBlock = props => {
 
-    const {products} = props;
+    const {products, removeItem} = props;
 
     const renderCartImage = (images) => {
         if (images.length > 0) {
@@ -26,11 +27,16 @@ const UserCartBlock = props => {
                 $ {product.price}
             </td>
             <td>
-                <button>Remove</button>
+                <Button
+                    type='danger'
+                    onClick={() => {
+                        removeItem(product._id);
+                    }}
+                >Remove
+                </Button>
             </td>
         </tr>
     ));
-
 
     return (
         <div>

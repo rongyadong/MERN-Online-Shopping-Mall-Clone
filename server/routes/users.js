@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { User } = require("../models/User");
+const { Product } = require("../models/Product");
 
 const { auth } = require("../middleware/auth");
 
@@ -126,6 +127,39 @@ router.post('/addToCart', auth, (req, res) => {
             );
         }
     });
+});
+
+router.get('/removeFromCart', auth, (req, res) => {
+
+    const {_id} = req.user;
+    const {_id: productId} = req.query;
+
+    User.findOneAndUpdate(
+        {_id},
+        {
+            $pull: {
+                cart: {
+                    id: productId
+                }
+            }
+        },
+        {new: true},
+        (err, userInfo) => {
+            let {cart} = userInfo;
+            let cartItemsIdArray = [];
+            cart.forEach(item => cartItemsIdArray = [...cartItemsIdArray, item.id]);
+
+            // go to Product model
+            Product.find({'_id': {$in: cartItemsIdArray}})
+                .populate('writer')
+                .exec((err, products) => {
+                    return res.status(200).json({
+                        cart, // in reducer
+                        cartDetails: products // in reducer
+                    });
+                });
+        }
+    );
 });
 
 module.exports = router;

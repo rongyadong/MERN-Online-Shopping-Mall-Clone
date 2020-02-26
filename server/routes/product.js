@@ -62,7 +62,7 @@ router.post("/getProducts", (req, res) => {
     let findArgs = {};
     // check keys in the filterConditions and use it to filter DB result
     for (let key in filterConditions) {
-        if (Object.keys(filterConditions).length > 0) {
+        if (filterConditions[key].length > 0) {
             if (key === "price") {
                 findArgs[key] = {
                     $gte: filterConditions[key][0],

@@ -31,6 +31,10 @@ const userSchema = mongoose.Schema({
         type: Array,
         default: []
     },
+    history: {
+        type: Array,
+        default: []
+    },
     token: {
         type: String,
     },

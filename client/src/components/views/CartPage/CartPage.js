@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { getCartItems, removeCartItem } from "../../../_actions/user_actions";
+import { getCartItems, removeCartItem, onSuccessPay } from "../../../_actions/user_actions";
 import { Result, Empty } from "antd";
 import UserCartBlock from "./Sections/UserCartBlock";
 import Paypal from "../../helpers/Paypal";
@@ -67,6 +67,17 @@ const CartPage = props => {
         Axios.post('/api/users/successPay', config)
             .then(res => {
                 if (res.data.success) {
+
+                    const {cart, cartDetails} = res.data;
+
+                    setShowSuccess(true);
+                    setShowTotal(false);
+                    setShowPaypal(false);
+
+                    dispatch(onSuccessPay({
+                        cart,
+                        cartDetails
+                    }));
 
                 } else {
                     alert('Payment Failed!');

@@ -13,6 +13,7 @@ const CartPage = props => {
     const [total, setTotal] = useState(0);
     const [showTotal, setShowTotal] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
+    const [showPaypal, setShowPaypal] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -20,12 +21,12 @@ const CartPage = props => {
         if (userData && cart) {
             if (cart.length > 0) {
                 cart.forEach(item => {
-                    cartItems.push(item.id)
+                    cartItems.push(item.id);
                 });
-                dispatch(getCartItems(cartItems, cart))
+                dispatch(getCartItems(cartItems, cart));
             }
         }
-    }, [userData])
+    }, [userData]);
 
     useEffect(() => {
         if (cartDetails && cartDetails.length > 0) {
@@ -42,6 +43,7 @@ const CartPage = props => {
 
         setTotal(total);
         setShowTotal(true);
+        setShowPaypal(true);
     };
 
     const removeFromCart = (productId) => {
@@ -49,6 +51,7 @@ const CartPage = props => {
             .then(() => {
                 if (cartDetails.length <= 1) {
                     setShowTotal(false);
+                    setShowPaypal(false);
                 } else {
                     totalAmount(cartDetails);
                 }
@@ -112,12 +115,12 @@ const CartPage = props => {
             </div>
 
             {/* Paypal Button */}
-            <Paypal
+            {showPaypal ? <Paypal
                 toPay={total}
                 paySuccess={transactionSuccess}
                 payCancel={transactionCancel}
                 payError={transactionError}
-            />
+            /> : null}
 
         </div>
     );
